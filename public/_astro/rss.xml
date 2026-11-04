@@ -1,1 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Arjun Ingole — writing</title><description>notes on databases, systems, and whatever i broke this week.</description><link>https://arjun-ingole.github.io/</link><item><title>5000× faster by moving a single word</title><link>https://arjun-ingole.github.io/blog/5000x-faster-by-moving-a-single-word/</link><guid isPermaLink="true">https://arjun-ingole.github.io/blog/5000x-faster-by-moving-a-single-word/</guid><pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Tarun — writing</title>
+    <description>notes on databases, systems, and backend engineering.</description>
+    <link>https://tarunbtw.github.io/</link>
+    <item>
+      <title>5000× faster by moving a single word</title>
+      <link>https://tarunbtw.github.io/blog/5000x-faster-by-moving-a-single-word</link>
+      <guid isPermaLink="true">https://tarunbtw.github.io/blog/5000x-faster-by-moving-a-single-word</guid>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

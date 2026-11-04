@@ -11,12 +11,12 @@ export function HomePage() {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    document.title = 'Tharun | portfolio'
+    document.title = 'Tarun'
   }, [])
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText('arjun0ingole@gmail.com')
+      await navigator.clipboard.writeText('tharun30115@gmail.com')
       setCopied(true)
       setTimeout(() => setCopied(false), 1400)
     } catch {
@@ -35,7 +35,7 @@ export function HomePage() {
         <div className="who">
           <img
             src="/_astro/avatar.DuZNMm41_X0n4Q.webp"
-            alt="Arjun"
+            alt="Tarun"
             loading="eager"
             decoding="async"
             width={176}
@@ -43,18 +43,8 @@ export function HomePage() {
             className="avatar"
           />
           <div className="who-text">
-            <h1 className="name display">Arjun Ingole</h1>
+            <h1 className="name display">Tarun</h1>
             <p className="role">
-              founding engineer at{' '}
-              <a
-                className="ul"
-                href="https://www.pazy.io/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                pazy
-              </a>{' '}
-              in{' '}
               <HoverCard
                 triggerText="bengaluru"
                 lat={12.9716}
@@ -171,8 +161,8 @@ export function HomePage() {
           </a>{' '}
           or drop a mail to{' '}
           <span className="mail">
-            <a className="ul" href="mailto:arjun0ingole@gmail.com">
-              arjun0ingole@gmail.com
+            <a className="ul" href="mailto:tharun30115@gmail.com">
+              tharun30115@gmail.com
             </a>
             <button
               className={`copy ${copied ? 'done' : ''}`}

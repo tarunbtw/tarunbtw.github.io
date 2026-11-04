@@ -11,7 +11,7 @@ function ScrollToTop() {
   useEffect(() => {
     window.scrollTo(0, 0)
     if (pathname === '/') {
-      document.title = 'Tharun | portfolio'
+      document.title = 'Tarun'
     }
   }, [pathname])
   return null
