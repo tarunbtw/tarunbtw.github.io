@@ -8,7 +8,7 @@ export function BlogPostPage() {
 
   useEffect(() => {
     if (post) {
-      document.title = `${post.title} · Tharun`
+      document.title = `${post.title} · Tarun`
     }
   }, [post])
 

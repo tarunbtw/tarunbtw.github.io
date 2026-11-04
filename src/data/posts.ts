@@ -12,7 +12,7 @@ export const POSTS: BlogPost[] = [
   {
     "slug": "5000x-faster-by-moving-a-single-word",
     "title": "5000\u00d7 faster by moving a single word",
-    "page_title": "5000\u00d7 faster by moving a single word \u00b7 Arjun Ingole",
+    "page_title": "5000\u00d7 faster by moving a single word \u00b7 Tarun",
     "datetime": "2026-06-20T00:00:00.000Z",
     "date_display": "June 20, 2026",
     "read_time": "9 min read",

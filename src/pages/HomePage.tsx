@@ -34,7 +34,7 @@ export function HomePage() {
 
         <div className="who">
           <img
-            src="/_astro/avatar.DuZNMm41_X0n4Q.webp"
+            src="/avatar.jpg"
             alt="Tarun"
             loading="eager"
             decoding="async"

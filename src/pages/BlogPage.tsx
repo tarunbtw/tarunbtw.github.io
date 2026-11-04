@@ -4,7 +4,7 @@ import { POSTS } from '../data/posts'
 
 export function BlogPage() {
   useEffect(() => {
-    document.title = 'Writing · Tharun'
+    document.title = 'Writing · Tarun'
   }, [])
 
   return (
