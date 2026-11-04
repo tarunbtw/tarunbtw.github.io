@@ -45,30 +45,16 @@ export function HomePage() {
           <div className="who-text">
             <h1 className="name display">Tarun</h1>
             <p className="role">
-              <HoverCard
-                triggerText="bengaluru"
-                lat={12.9716}
-                lng={77.5946}
-                zoom={11}
-                caption="bengaluru · © openfreemap © openstreetmap"
-              />
-              , india
+              <HoverCard triggerText="bengaluru" />, india
             </p>
           </div>
         </div>
 
         <p>
           i'm an independent backend engineer from{' '}
-          <HoverCard
-            triggerText="bengaluru"
-            lat={12.9716}
-            lng={77.5946}
-            zoom={11}
-            caption="bengaluru · © openfreemap © openstreetmap"
-          />
-          , building fast, minimal systems and developer tooling. i spend most of
-          my time designing clean APIs, distributed services, and exploring agentic
-          software.
+          <HoverCard triggerText="bengaluru" />, building fast, minimal systems
+          and developer tooling. i spend most of my time designing clean APIs,
+          distributed services, and exploring agentic software.
         </p>
 
         <p>

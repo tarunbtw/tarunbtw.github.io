@@ -437,7 +437,7 @@ main.stagger > .intro {
   text-underline-offset: 3px;
   text-decoration-thickness: 1.5px;
   color: var(--ink);
-  cursor: help;
+  cursor: pointer;
   transition: text-decoration-color 0.2s ease;
 }
 
@@ -447,11 +447,9 @@ main.stagger > .intro {
 
 .hc-pos {
   position: fixed;
-  z-index: 50;
+  z-index: 1000;
   pointer-events: none;
   visibility: hidden;
-  width: var(--w, 300px);
-  height: var(--h, 300px);
 }
 
 .hc-pos.open {
@@ -462,77 +460,92 @@ main.stagger > .intro {
 .hc-anim {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius, 22px);
-  overflow: hidden;
+  border-radius: 18px;
   position: relative;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
   transform-origin: center top;
 }
 
 .hc-anim.is-show {
-  animation: hc-in-b 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hc-pop-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .hc-anim.is-hide {
-  animation: hc-out-b 0.26s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: hc-pop-out 0.15s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
-@keyframes hc-in-b {
-  0% { opacity: 0; transform: scale(0.92) rotate(1deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+@keyframes hc-pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-@keyframes hc-out-b {
-  0% { opacity: 1; transform: scale(1) rotate(0deg); }
-  100% { opacity: 0; transform: scale(0.92) rotate(1deg); }
+@keyframes hc-pop-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
 }
 
-.hc-inner {
-  position: relative;
+.hc-card {
+  display: block;
+  text-decoration: none;
   width: 100%;
   height: 100%;
-  border-radius: inherit;
+  border-radius: 18px;
   overflow: hidden;
-  background: #0b0b0b;
+  background: #f0ebe2;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.16), 0 4px 14px rgba(0, 0, 0, 0.06);
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .hc-card {
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 18px 40px -4px rgba(0, 0, 0, 0.65), 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.hc-card:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .hc-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .hc-map {
   display: block;
   width: 100%;
   height: 100%;
-  background: #f0ebe2;
-}
-
-[data-theme="dark"] .hc-map {
-  background: #121212;
+  border-radius: 18px;
+  overflow: hidden;
 }
 
 .hc-map .maplibregl-canvas {
   opacity: 0;
   transition: opacity 0.35s ease;
+  border-radius: 18px;
 }
 
 .hc-map.is-ready .maplibregl-canvas {
   opacity: 1;
 }
 
-.hc-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 0.9rem 1.25rem 0.45rem;
-  text-align: center;
-  font-size: 11px;
-  color: #a1a1aa;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
-  pointer-events: none;
-}
-
 .hc-pin {
   position: relative;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 .hc-pin .hc-dot {
@@ -543,6 +556,7 @@ main.stagger > .intro {
   height: 8px;
   border-radius: 9999px;
   background: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.9);
   transform: translate(-50%, -50%);
 }
 
@@ -550,16 +564,23 @@ main.stagger > .intro {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 9999px;
   border: 2px solid #3b82f6;
+  transform: translate(-50%, -50%);
   animation: hc-pulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @keyframes hc-pulse {
-  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.9; }
-  100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
 }
 
 /* --- MAIL & COPY BUTTON --- */

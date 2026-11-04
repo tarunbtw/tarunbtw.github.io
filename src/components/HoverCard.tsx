@@ -2,10 +2,10 @@ import { useState, useRef, useEffect, type ReactNode } from 'react'
 
 interface HoverCardProps {
   triggerText: string
-  lat: number
-  lng: number
-  zoom: number
-  caption: ReactNode
+  lat?: number
+  lng?: number
+  zoom?: number
+  caption?: ReactNode
 }
 
 // Global maplibre promise cache
@@ -15,7 +15,6 @@ let maplibrePromise: Promise<any> | null = null
 function loadMapLibre() {
   if (maplibrePromise) return maplibrePromise
   maplibrePromise = new Promise((resolve, reject) => {
-    // Check if already on window
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((window as any).maplibregl) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,19 +42,17 @@ function loadMapLibre() {
 
 export function HoverCard({
   triggerText,
-  lat,
-  lng,
-  zoom,
-  caption,
+  lat = 12.9716,
+  lng = 77.5946,
+  zoom = 11,
 }: HoverCardProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [animClass, setAnimClass] = useState('')
   const [posStyle, setPosStyle] = useState<React.CSSProperties>({})
-  const [placement, setPlacement] = useState<'bottom' | 'top'>('bottom')
 
   const triggerRef = useRef<HTMLSpanElement>(null)
   const posRef = useRef<HTMLSpanElement>(null)
-  const mapContainerRef = useRef<HTMLSpanElement>(null)
+  const mapContainerRef = useRef<HTMLDivElement>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapInstanceRef = useRef<any>(null)
   const closeTimerRef = useRef<number | null>(null)
@@ -67,9 +64,9 @@ export function HoverCard({
     const rect = trigger.getBoundingClientRect()
     const winW = window.innerWidth
     const winH = window.innerHeight
-    const cardW = 300
-    const cardH = 300
-    const gap = 12
+    const cardW = 280
+    const cardH = 176
+    const gap = 8
     const pad = 12
 
     const bottomY = rect.bottom + gap
@@ -87,7 +84,6 @@ export function HoverCard({
       width: `${cardW}px`,
       height: `${cardH}px`,
     })
-    setPlacement(fitsBottom ? 'bottom' : 'top')
   }
 
   const handleMouseEnter = () => {
@@ -152,7 +148,7 @@ export function HoverCard({
     closeTimerRef.current = window.setTimeout(() => {
       setAnimClass('is-hide')
       setIsOpen(false)
-    }, 160)
+    }, 140)
   }
 
   useEffect(() => {
@@ -170,7 +166,6 @@ export function HoverCard({
   return (
     <span
       className="hc"
-      data-placement={placement}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -184,19 +179,16 @@ export function HoverCard({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <span
-          className={`hc-anim ${animClass}`}
-          aria-hidden={!isOpen}
-          style={
-            {
-              '--radius': '22px',
-            } as React.CSSProperties
-          }
-        >
-          <span className="hc-inner">
-            <span ref={mapContainerRef} className="hc-map" />
-            <span className="hc-caption">{caption}</span>
-          </span>
+        <span className={`hc-anim ${animClass}`} aria-hidden={!isOpen}>
+          <a
+            className="hc-card"
+            href="https://www.google.com/maps/place/Bengaluru"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Bengaluru on Google Maps"
+          >
+            <div ref={mapContainerRef} className="hc-map" />
+          </a>
         </span>
       </span>
     </span>
