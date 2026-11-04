@@ -58,47 +58,28 @@ export function HomePage() {
         </div>
 
         <p>
-          i'm a founding engineer at{' '}
-          <a
-            className="ul"
-            href="https://www.pazy.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            pazy
-          </a>
-          , where we're building the payments platform businesses use to track
-          every rupee they spend. i move between product, design and
-          engineering, and lately sales too, because building the thing is only
-          half the job.
-        </p>
-
-        <p>
-          i grew up in a small village near{' '}
+          i'm an independent backend engineer from{' '}
           <HoverCard
-            triggerText="nagpur"
-            lat={21.1458}
-            lng={79.0882}
-            zoom={9}
-            caption="nagpur · © openfreemap © openstreetmap"
-          />{' '}
-          and taught myself to code building custom roms and{' '}
-          <a
-            className="ul"
-            href="https://github.com/Arjun-Ingole/kernel_xiaomi_sm6250"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            kernels
-          </a>{' '}
-          for xiaomi phones, compiling them on aws servers i'd ssh into. that
-          rabbit hole turned out to be a better teacher than any classroom, so i
-          dropped out of college and never looked back.
+            triggerText="bengaluru"
+            lat={12.9716}
+            lng={77.5946}
+            zoom={11}
+            caption="bengaluru · © openfreemap © openstreetmap"
+          />
+          , building fast, minimal systems and developer tooling. i spend most of
+          my time designing clean APIs, distributed services, and exploring agentic
+          software.
         </p>
 
         <p>
-          i'm endlessly curious about ai, startups and fintech, and after hours i
-          build tools for coding agents in{' '}
+          i taught myself systems programming by breaking things, reading source
+          code, and shipping open-source projects. i care deeply about low latency,
+          minimal dependencies, and software that just works.
+        </p>
+
+        <p>
+          i'm endlessly curious about distributed systems, ai agents, and edge
+          infrastructure. these days i build software primarily in{' '}
           <span className="hl">
             <svg
               className="tech-icon"
