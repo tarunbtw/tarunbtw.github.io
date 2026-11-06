@@ -11,7 +11,7 @@ export function BlogPage() {
     <main className="stagger" style={{ '--d': '340ms' } as React.CSSProperties}>
       <h1 className="title">Writing</h1>
       <p className="lede">
-        notes on databases, systems, and whatever i broke this week.
+        notes on systems architecture, concurrency, and performance.
       </p>
       <ul className="rows list">
         {POSTS.map((post) => (

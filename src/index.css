@@ -843,7 +843,7 @@ a.row:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 3.5rem;
+  margin-top: 1.75rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--line);
   font-size: 13px;

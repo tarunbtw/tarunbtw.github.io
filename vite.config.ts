@@ -19,7 +19,11 @@ function githubPagesSpa() {
       fs.copyFileSync(indexHtml, path.join(dist, '404.html'))
 
       // Pre-generate directory indexes for known routes for HTTP 200
-      const routes = ['blog', 'blog/5000x-faster-by-moving-a-single-word']
+      const routes = [
+        'blog',
+        'blog/strange-math-that-predicts-anything-almost',
+        'blog/why-more-cores-stop-helping',
+      ]
       for (const route of routes) {
         const routeDir = path.join(dist, route)
         fs.mkdirSync(routeDir, { recursive: true })

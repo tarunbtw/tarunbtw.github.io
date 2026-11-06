@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom'
 import { POSTS } from '../data/posts'
 
 export function WritingSection() {
+  const homePosts = POSTS.filter((post) => !post.hide_from_home)
+
   return (
     <section className="section" id="writing">
       <h2 className="section-title">Writing</h2>
       <ul className="rows">
-        {POSTS.map((post) => (
+        {homePosts.map((post) => (
           <li key={post.slug}>
             <Link className="row" to={`/blog/${post.slug}`}>
               <span className="row-main">

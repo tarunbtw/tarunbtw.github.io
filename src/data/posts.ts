@@ -6,6 +6,7 @@ export interface BlogPost {
   date_display: string;
   read_time: string;
   content_html: string;
+  hide_from_home?: boolean;
 }
 
 export const POSTS: BlogPost[] = [
@@ -16,11 +17,9 @@ export const POSTS: BlogPost[] = [
     datetime: "2026-11-05T00:00:00.000Z",
     date_display: "November 5, 2026",
     read_time: "7 min read",
-    content_html: `<p>In 1906, a Russian mathematician named Andrei Markov got into a bitter argument with his former professor, Pavel Nekrasov. Nekrasov had published a paper arguing that probability and the law of large numbers only work when events are strictly independent. He then used that mathematical claim as theoretical proof for Christian theology and human free will.</p>
+    content_html: `<p>In 1906, Andrei Markov got into an argument with his former professor, Pavel Nekrasov. Nekrasov claimed the law of large numbers only worked for independent events, using the math to defend theological free will. Markov thought the math was sloppy and set out to prove him wrong.</p>
 
-<p>Markov thought the math was sloppy and the conclusion was absurd. Instead of writing a counter-essay on philosophy, he sat down with a pencil and Alexander Pushkin's verse novel <em>Eugene Onegin</em>. He spent weeks tallying the first 20,000 Russian letters by hand, noting every vowel and consonant in sequence to test whether letters were independent.</p>
-
-<p>He found that the probability of the next letter being a vowel was roughly 13% if the current letter was a vowel, but 66% if the current letter was a consonant. The sequence was clearly dependent on what came before it, yet across thousands of letters, the running proportions converged to steady numbers. That handwritten counterexample became the first Markov chain.</p>
+<p>Instead of writing a philosophical rebuttal, Markov spent weeks tallying 20,000 letters from Pushkin's novel <em>Eugene Onegin</em>. Vowels followed vowels only 13% of the time, but followed consonants 66% of the time. The sequence was dependent, yet the proportions converged to steady numbers. That counterexample became the first Markov chain.</p>
 
 <h3 id="the-memoryless-rule">The memoryless rule</h3>
 
@@ -340,12 +339,110 @@ for t in range(9):
 
 <h3 id="the-erasure-of-history">The erasure of history</h3>
 
-<p>There is something almost philosophical about how stationary distributions work. No matter which node you pick as your starting point, whether you begin 100% at Node A or Node D, the memory of that initial position decays with every matrix multiplication. Within eight to ten steps, your starting position is completely forgotten.</p>
+<p>No matter where you start in the network, the memory of that initial state decays with every step. Within ten hops, the origin is completely erased. The system carries no past baggage, yet its long-term destination remains strictly determined by the graph topology.</p>
 
-<p>The system does not keep a ledger of how it got here. It does not carry the baggage of past moves. Yet despite that lack of memory, the long-term outcome is completely deterministic. The stationary distribution is baked directly into the graph topology.</p>
+<p>In software, we often assume predictability requires recording everything. Markov showed that if local transition rules are sound, you can discard history entirely. You only need to know where you are right now to know where the system will settle.</p>`
+  },
+  {
+    slug: "why-more-cores-stop-helping",
+    title: "why more cores stop helping",
+    page_title: "why more cores stop helping · Tarun",
+    datetime: "2026-11-07T00:00:00.000Z",
+    date_display: "November 7, 2026",
+    read_time: "5 min read",
+    hide_from_home: true,
+    content_html: `<p>In 1967, computer architect Gene Amdahl stood in front of a conference audience in Atlantic City and presented a three-page paper. The industry was enthusiastic about parallel computing. Hardware vendors promised that wiring dozens of processors together would make programs arbitrarily fast.</p>
 
-<p>Most software systems struggle because engineers assume predictability requires recording everything: building massive audit trails, complex state machines, and endless event logs. Markov's insight was the opposite. If the transition rules between states are sound, you can discard history entirely, look only at the present step, and still know with mathematical certainty where the system will settle.</p>
+<p>Amdahl was skeptical. As the chief architect of the IBM System/360, he understood how software behaved on real hardware. With basic arithmetic, he proved that no matter how many processors you add, the overall speedup is strictly bound by the work that must run sequentially.</p>
 
-<p>In 1906, Andrei Markov set out to win a petty academic feud about Russian vowels. He ended up uncovering one of the most practical tools in computing: a way to predict the long-term behavior of complex networks using nothing more than local transitions and a single matrix.</p>`
+<h3 id="the-arithmetic-of-speed">The arithmetic of speed</h3>
+
+<p>Every program divides into two distinct parts: the fraction that can run concurrently across multiple threads, and the fraction that must execute in strict sequence.</p>
+
+<p>If p represents the parallel fraction, the theoretical speedup S(n) achievable with n processor cores follows Amdahl's law:</p>
+
+<div class="math-block"><code>S(n) = 1 / ((1 - p) + (p / n))</code></div>
+
+<p>Here, 1 - p is the serial bottleneck. When the number of cores n grows toward infinity, the parallel term p / n shrinks to zero. Only the serial barrier remains:</p>
+
+<div class="math-block"><code>limit as n → ∞ : S(∞) = 1 / (1 - p)</code></div>
+
+<h3 id="the-asymptotic-wall">The asymptotic wall</h3>
+
+<p>The implications are unforgiving. Suppose 95% of your application runs in parallel, leaving just 5% of serial execution. Your theoretical maximum speedup ceiling is 1 divided by 0.05. That equals exactly 20.</p>
+
+<p>It does not matter whether you run sixteen cores or ten thousand GPUs. You can never achieve more than a twenty-fold speedup over a single thread. With a 10% serial fraction, your ceiling drops to 10x. With 25% serial work, you hit an immovable ceiling at 4x.</p>
+
+<div class="prose-figure">
+  <div class="prose-figure-svg">
+    <svg viewBox="0 0 460 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid lines -->
+      <line x1="45" y1="20" x2="440" y2="20" stroke="var(--line)" stroke-dasharray="2 3"></line>
+      <line x1="45" y1="55" x2="440" y2="55" stroke="var(--line)" stroke-dasharray="2 3"></line>
+      <line x1="45" y1="90" x2="440" y2="90" stroke="var(--line)" stroke-dasharray="2 3"></line>
+      <line x1="45" y1="125" x2="440" y2="125" stroke="var(--line)" stroke-dasharray="2 3"></line>
+      <line x1="45" y1="160" x2="440" y2="160" stroke="var(--line)"></line>
+
+      <!-- Y Axis Labels -->
+      <text x="36" y="24" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="end">20x</text>
+      <text x="36" y="59" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="end">15x</text>
+      <text x="36" y="94" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="end">10x</text>
+      <text x="36" y="129" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="end">5x</text>
+      <text x="36" y="163" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="end">1x</text>
+
+      <!-- X Axis Labels -->
+      <text x="45" y="176" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="middle">1</text>
+      <text x="89" y="176" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="middle">8</text>
+      <text x="139" y="176" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="middle">16</text>
+      <text x="239" y="176" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="middle">32</text>
+      <text x="340" y="176" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="middle">48</text>
+      <text x="440" y="176" fill="var(--ink-3)" font-family="var(--font-mono)" font-size="9" text-anchor="middle">64</text>
+
+      <!-- Asymptotes -->
+      <line x1="45" y1="20" x2="440" y2="20" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"></line>
+      <line x1="45" y1="90" x2="440" y2="90" stroke="#10b981" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"></line>
+      <line x1="45" y1="132" x2="440" y2="132" stroke="#f97316" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"></line>
+      <line x1="45" y1="146" x2="440" y2="146" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"></line>
+
+      <!-- Curves -->
+      <path d="M 45.0,153.0 L 51.3,146.7 L 63.8,135.7 L 88.9,118.5 L 114.0,105.8 L 139.0,96.0 L 164.1,88.2 L 189.2,81.9 L 214.3,76.6 L 239.4,72.2 L 289.5,65.1 L 339.7,59.7 L 389.8,55.5 L 440.0,52.0" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M 45.0,153.0 L 51.3,147.3 L 63.8,138.5 L 88.9,127.1 L 114.0,120.0 L 139.0,115.2 L 164.1,111.7 L 189.2,109.1 L 214.3,107.0 L 239.4,105.4 L 289.5,102.9 L 339.7,101.1 L 389.8,99.7 L 440.0,98.6" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M 45.0,153.0 L 51.3,148.8 L 63.8,144.0 L 88.9,139.6 L 114.0,137.6 L 139.0,136.4 L 164.1,135.7 L 189.2,135.1 L 214.3,134.7 L 239.4,134.4 L 289.5,134.0 L 339.7,133.6 L 389.8,133.4 L 440.0,133.3" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M 45.0,153.0 L 51.3,150.7 L 63.8,148.8 L 88.9,147.6 L 114.0,147.1 L 139.0,146.8 L 164.1,146.7 L 189.2,146.6 L 214.3,146.5 L 239.4,146.4 L 289.5,146.3 L 339.7,146.3 L 389.8,146.2 L 440.0,146.2" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </div>
+  <div class="prose-figure-legend">
+    <span class="legend-item"><span class="legend-color" style="background:#3b82f6;"></span> 95% parallel (limit 20x)</span>
+    <span class="legend-item"><span class="legend-color" style="background:#10b981;"></span> 90% parallel (limit 10x)</span>
+    <span class="legend-item"><span class="legend-color" style="background:#f97316;"></span> 75% parallel (limit 4x)</span>
+    <span class="legend-item"><span class="legend-color" style="background:#8b5cf6;"></span> 50% parallel (limit 2x)</span>
+  </div>
+</div>
+
+<h3 id="where-serial-bottlenecks-hide">Where serial bottlenecks hide</h3>
+
+<p>In backend engineering, serial bottlenecks rarely present themselves as raw CPU instructions. They hide in architectural dependencies. A database transaction waiting on a row lock, an API gateway doing sequential TLS handshakes, or a Kafka queue pinned to a single partition key.</p>
+
+<p>Engineers often respond by adding worker threads or scaling container replicas. But if the underlying bottleneck is a mutex lock or disk write barrier, additional workers only increase thread contention and scheduling latency. The CPUs run hotter, but throughput stays flat.</p>
+
+<h3 id="diminishing-returns">Diminishing returns</h3>
+
+<p>You can verify the arithmetic in a few lines of Python:</p>
+
+<pre><code>def speedup(p, n):
+    return 1.0 / ((1.0 - p) + (p / n))
+
+p = 0.95
+for cores in [1, 2, 4, 8, 16, 64, 1024]:
+    s = speedup(p, cores)
+    print(f"{cores:4d} cores: {s:5.2f}x")</code></pre>
+
+<p>At 16 cores, you reach an 11.4x speedup. At 64 cores, you reach 16.8x. At 1,024 cores, you crawl to 19.8x. You burned 64 times more hardware for an incremental gain of less than 3x.</p>
+
+<h3 id="shrinking-the-non-parallel-tail">Shrinking the non-parallel tail</h3>
+
+<p>Optimizing distributed systems is rarely about speeding up the 95% of code that already scales. It is entirely about hunting down and eliminating the 5% that does not.</p>
+
+<p>Cutting a serial section from 5% to 1% raises your theoretical speedup ceiling from 20x to 100x. Moving from synchronous locks to lock-free ring buffers or event-driven pipelines does more for throughput than any machine upgrade. Amdahl's law reminds us that scale is defined by what refuses to run in parallel.</p>`
   }
 ];
