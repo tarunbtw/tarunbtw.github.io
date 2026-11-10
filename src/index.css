@@ -686,6 +686,7 @@ a.row:hover {
   white-space: nowrap;
 }
 
+#blog .row-name,
 #writing .row-name,
 .list .row-name {
   white-space: normal;
@@ -714,6 +715,7 @@ a.row:hover {
 }
 
 @media (max-width: 520px) {
+  #blog .row,
   #writing .row,
   .list .row {
     flex-direction: column;
@@ -721,6 +723,7 @@ a.row:hover {
     gap: 0.2rem;
   }
 
+  #blog .row-meta,
   #writing .row-meta,
   .list .row-meta {
     font-size: 12px;

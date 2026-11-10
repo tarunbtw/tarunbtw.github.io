@@ -5,8 +5,8 @@ export function WritingSection() {
   const homePosts = POSTS.filter((post) => !post.hide_from_home)
 
   return (
-    <section className="section" id="writing">
-      <h2 className="section-title">Writing</h2>
+    <section className="section" id="blog">
+      <h2 className="section-title">Blog</h2>
       <ul className="rows">
         {homePosts.map((post) => (
           <li key={post.slug}>

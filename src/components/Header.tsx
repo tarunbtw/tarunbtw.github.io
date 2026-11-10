@@ -29,7 +29,7 @@ export function Header() {
     startViewTransition.call(document, apply)
   }
 
-  const isWritingActive = location.pathname.startsWith('/blog')
+  const isBlogActive = location.pathname.startsWith('/blog')
 
   return (
     <header className="top rise">
@@ -56,10 +56,10 @@ export function Header() {
       <nav className="nav" aria-label="primary">
         <Link
           to="/blog"
-          className={isWritingActive ? 'active' : ''}
-          aria-current={isWritingActive ? 'page' : undefined}
+          className={isBlogActive ? 'active' : ''}
+          aria-current={isBlogActive ? 'page' : undefined}
         >
-          Writing
+          Blog
         </Link>
         <button
           className="theme"

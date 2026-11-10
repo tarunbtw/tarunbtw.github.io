@@ -4,12 +4,12 @@ import { POSTS } from '../data/posts'
 
 export function BlogPage() {
   useEffect(() => {
-    document.title = 'Writing · Tarun'
+    document.title = 'Blog · Tarun'
   }, [])
 
   return (
     <main className="stagger" style={{ '--d': '340ms' } as React.CSSProperties}>
-      <h1 className="title">Writing</h1>
+      <h1 className="title">Blog</h1>
       <p className="lede">
         notes on systems architecture, concurrency, and performance.
       </p>

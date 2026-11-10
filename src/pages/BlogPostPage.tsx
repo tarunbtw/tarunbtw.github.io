@@ -21,7 +21,7 @@ export function BlogPostPage() {
       <article>
         <header className="head">
           <Link className="back" to="/blog">
-            ← Writing
+            ← Blog
           </Link>
           <h1>{post.title}</h1>
           <p className="meta">
