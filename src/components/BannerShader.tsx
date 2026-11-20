@@ -10,11 +10,12 @@ const FS = `#version 300 es
 precision highp float;
 uniform sampler2D uTex;
 uniform vec2 uRes;      // canvas, device px
-uniform vec2 uImg;      // image size
+uniform vec2 uImg;      // single frame size, device px
 uniform vec2 uMouse;    // device px, bottom-left origin
 uniform float uHover;   // 0..1, eased
 uniform float uTime;
 uniform float uDpr;
+uniform float uFrame;   // 0..8
 out vec4 o;
 
 vec2 cover(vec2 uv) {
@@ -23,12 +24,19 @@ vec2 cover(vec2 uv) {
 \telse { float s = ra / ia; uv.x = uv.x * s + (1.0 - s) * 0.5; }
 \treturn uv;
 }
+
+vec2 toAtlas(vec2 uv) {
+\tvec2 c = cover(uv);
+\treturn vec2(c.x, (8.0 - uFrame + clamp(c.y, 0.0, 1.0)) / 9.0);
+}
+
 vec3 sampleRGB(vec2 uv, float ab) {
 \treturn vec3(
-\t\ttexture(uTex, cover(uv + vec2(ab, 0.0))).r,
-\t\ttexture(uTex, cover(uv)).g,
-\t\ttexture(uTex, cover(uv - vec2(ab, 0.0))).b);
+\t\ttexture(uTex, toAtlas(uv + vec2(ab, 0.0))).r,
+\t\ttexture(uTex, toAtlas(uv)).g,
+\t\ttexture(uTex, toAtlas(uv - vec2(ab, 0.0))).b);
 }
+
 void main() {
 \tvec2 uv = gl_FragCoord.xy / uRes;
 \tvec2 cc = uv - 0.5;
@@ -171,16 +179,17 @@ export function BannerShader() {
         Math.abs(targetHover - hoverState) > 0.003
 
       if (needsRender || isChanging || shouldAnimate) {
+        const frameIndex = prefersReducedMotion
+          ? 0
+          : Math.floor(timeSec * 14.2857) % 9
+
         gl.uniform2f(getLoc('uRes'), canvas.width, canvas.height)
-        gl.uniform2f(
-          getLoc('uImg'),
-          imageObj.naturalWidth,
-          imageObj.naturalHeight
-        )
+        gl.uniform2f(getLoc('uImg'), 1500, 500)
         gl.uniform2f(getLoc('uMouse'), mouseX, mouseY)
         gl.uniform1f(getLoc('uHover'), hoverState)
         gl.uniform1f(getLoc('uTime'), timeSec)
         gl.uniform1f(getLoc('uDpr'), dpr)
+        gl.uniform1f(getLoc('uFrame'), frameIndex)
         gl.uniform1i(getLoc('uTex'), 0)
         gl.drawArrays(gl.TRIANGLES, 0, 3)
 
@@ -221,7 +230,7 @@ export function BannerShader() {
       needsRender = true
       startLoop()
     }
-    img.src = '/banner.jpg'
+    img.src = '/banner_strip.jpg'
 
     return () => {
       canvas.removeEventListener('pointermove', onPointerMove)
@@ -236,8 +245,8 @@ export function BannerShader() {
     <div ref={containerRef} className="banner hero-banner">
       <img
         className="banner-fallback"
-        src="/banner.jpg"
-        alt="A retro desk: a beige IBM PC, Monkey Island boxes and a boombox"
+        src="/banner.gif"
+        alt="Steaming coffee mug on a windowsill against a starry night sky"
         width={1500}
         height={500}
         decoding="async"
@@ -246,4 +255,3 @@ export function BannerShader() {
     </div>
   )
 }
-
